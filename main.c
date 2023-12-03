@@ -68,10 +68,7 @@ INT main(
                 g_apszMessages[1]
                 );
 
-                stGdLevel.pszLevelBuffer = calloc(
-                    stGdLevel.uRawBufferSize,
-                    stGdLevel.uRawBufferSize
-                    );
+                stGdLevel.pszLevelBuffer = malloc(stGdLevel.uRawBufferSize);
                 
                 if(stGdLevel.pszLevelBuffer == NULL) {
                     puts(g_apszErrorMessages[4]);
@@ -171,10 +168,7 @@ UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel) {
                     "</i><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
-                pstLevel->pszGmdOut = calloc(
-                    pstLevel->uGmdOutSize,
-                    pstLevel->uGmdOutSize
-                );
+                pstLevel->pszGmdOut = malloc(pstLevel->uGmdOutSize);
 
                 if(pstLevel->pszGmdOut == NULL) {
                     puts(g_apszErrorMessages[5]);
@@ -213,10 +207,7 @@ UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel) {
                     "</s><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
-                pstLevel->pszGmdOut = calloc(
-                    pstLevel->uGmdOutSize,
-                    pstLevel->uGmdOutSize
-                );
+                pstLevel->pszGmdOut = malloc(pstLevel->uGmdOutSize);
 
                 if(pstLevel->pszGmdOut == NULL) {
                     puts(g_apszErrorMessages[5]);
@@ -256,10 +247,7 @@ UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel) {
                     "</i><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
-                pstLevel->pszGmdOut = calloc(
-                    pstLevel->uGmdOutSize,
-                    pstLevel->uGmdOutSize
-                );
+                pstLevel->pszGmdOut = malloc(pstLevel->uGmdOutSize);
 
                 if(pstLevel->pszGmdOut == NULL) {
                     puts(g_apszErrorMessages[5]);
