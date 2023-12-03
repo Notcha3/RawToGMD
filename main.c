@@ -4,7 +4,7 @@ INT main(
    _In_ INT argc, 
    _In_ PSTR argv[]
 ) {
-    puts("RawToGMD by notcha3\n\0");
+    puts(g_apszMessages[3]);
 
     if(argc<5) {
         puts(g_apszErrorMessages[0]);
@@ -62,10 +62,10 @@ INT main(
              rewind(pFile);
 
              printf(
-                "%s%d%s", 
-                "The file is:\t\0", 
+                "\n%s\t%u\t%s", 
+                g_apszMessages[0], 
                 stGdLevel.uRawBufferSize, 
-                "\tbytes long\0"
+                g_apszMessages[1]
                 );
 
                 stGdLevel.pszLevelBuffer = calloc(
@@ -124,7 +124,7 @@ INT main(
                     } 
                     free(stGdLevel.pszGmdOut);
                     fclose(pFile);
-                    puts("\nExported Successfully\0");
+                    puts(g_apszMessages[2]);
                 } 
 
                 else {
@@ -194,10 +194,10 @@ UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel) {
                     );
 
                 printf(
-                    "%s%llu%s", 
-                    "\nSize of parsed string:\t", 
+                    "\n%s\t%u\t%s", 
+                    g_apszMessages[4], 
                     pstLevel->uGmdOutSize, 
-                    "\tBytes"
+                    g_apszMessages[5]
                 );
         }
 
@@ -234,10 +234,10 @@ UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel) {
                     );
 
                 printf(
-                    "%s%llu%s", 
-                    "\nSize of parsed string:\t", 
+                    "\n%s\t%u\t%s", 
+                    g_apszMessages[4], 
                     pstLevel->uGmdOutSize, 
-                    "\tBytes"
+                    g_apszMessages[5]
                 );
             }
     }
@@ -280,10 +280,10 @@ UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel) {
                     );
 
                 printf(
-                    "%s%llu%s", 
-                    "\nSize of parsed string:\t", 
+                    "\n%s\t%u\t%s", 
+                    g_apszMessages[4], 
                     pstLevel->uGmdOutSize, 
-                    "\tBytes"
+                    g_apszMessages[5]
                 );
     }
     

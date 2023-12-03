@@ -30,8 +30,8 @@ typedef struct {
     _In_ CHAR szLevelName[GDMAX];
     _In_ PSTR pszLevelBuffer;
     _Out_ PSTR pszGmdOut;
-    _In_ size_t uGmdOutSize;
-    _In_ size_t uRawBufferSize;
+    _In_ UINT uGmdOutSize;
+    _In_ UINT uRawBufferSize;
     _In_ BOOL bIsNewgrounds;
 } GD_LEVEL_STRUCT, *PGD_LEVEL_STRUCT;
 
@@ -59,5 +59,16 @@ PCSTR g_apszErrorMessages[12] = {
     "\nInvalid song id. default songs range from 0 to 20.\0",
     "\nInvalid choice. Use TRUE or FALSE.\0"
 };
+
+PCSTR g_apszMessages[6] = {
+    "The file is:\0",
+    "Bytes\0",
+    "\nExported Successfully\0",
+    "RawToGMD by notcha3\n\0",
+    "Size of parsed string:\0",
+    "Bytes\0"
+
+};
+
 //Functuion prototypes
 UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel);
