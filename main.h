@@ -64,7 +64,7 @@ PCSTR g_apszMessages[6] = {
     "The file is:\0",
     "Bytes\0",
     "\nExported Successfully\0",
-    "RawToGMD by notcha3\n\0",
+    "RawToGMD\n\0",
     "Size of parsed string:\0",
     "Bytes\0"
 

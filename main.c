@@ -4,15 +4,22 @@ INT main(
    _In_ INT argc, 
    _In_ PSTR argv[]
 ) {
-    puts(g_apszMessages[3]);
 
     if(argc<5) {
-        puts(g_apszErrorMessages[0]);
+        printf(
+            "%s\n%s",
+            g_apszMessages[3],
+            g_apszErrorMessages[0]
+        );
         return EXIT_FAILURE;
     }
 
     if(argc>5) {
-        puts(g_apszErrorMessages[1]);
+        printf(
+            "%s\n%s",
+            g_apszMessages[3],
+            g_apszErrorMessages[1]
+        );
         return EXIT_FAILURE;
     }
 
