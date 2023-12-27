@@ -3,22 +3,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-//sal2 like stuff
-#define _In_
-#define _Out_
-#define _Inopt_
-#define _In_Out_
-
-// I prefer winapi style type names so yeah
-#define INT int
-#define CHAR char
-#define UINT unsigned int
-#define PSTR char *
-#define PCSTR const char *
-#define BOOL bool
-#define FALSE false
-#define TRUE true
-
 #define FAIL 1
 #define SUCCESS 0
 #define GDMAX 20
@@ -26,18 +10,18 @@
 
 //Structs
 typedef struct {
-    _In_ UINT uSongID;
-    _In_ CHAR szLevelName[GDMAX];
-    _In_ PSTR pszLevelBuffer;
-    _Out_ PSTR pszGmdOut;
-    _In_ UINT uGmdOutSize;
-    _In_ UINT uRawBufferSize;
-    _In_ BOOL bIsNewgrounds;
+    unsigned int SongID;
+    char LevelName[GDMAX];
+    char *LevelBuffer;
+    char *GmdOut;
+    unsigned int GmdOutSize;
+    unsigned int RawBufferSize;
+    bool IsNewgrounds;
 } GD_LEVEL_STRUCT, *PGD_LEVEL_STRUCT;
 
 //Constants
 
-PCSTR g_apszErrorMessages[12] = {
+const char *ErrorMessages[12] = {
     "Not enough arguments. Usage: \
     \n[FILENAME]\
     \n[LEVELNAME] - Strictly ANSI name, only latin charecters\
@@ -60,7 +44,7 @@ PCSTR g_apszErrorMessages[12] = {
     "\nInvalid choice. Use TRUE or FALSE.\0"
 };
 
-PCSTR g_apszMessages[6] = {
+const char *Messages[6] = {
     "The file is:\0",
     "Bytes\0",
     "\nExported Successfully\0",
@@ -71,4 +55,4 @@ PCSTR g_apszMessages[6] = {
 };
 
 //Functuion prototypes
-UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel);
+unsigned int GenerateString(PGD_LEVEL_STRUCT StructLevel);

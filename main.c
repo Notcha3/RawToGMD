@@ -1,15 +1,12 @@
 #include "main.h"
 
-INT main(
-   _In_ INT argc, 
-   _In_ PSTR argv[]
-) {
+int main(int argc, char *argv[]) {
 
     if(argc<5) {
         printf(
             "%s\n%s",
-            g_apszMessages[3],
-            g_apszErrorMessages[0]
+            Messages[3],
+            ErrorMessages[0]
         );
         return EXIT_FAILURE;
     }
@@ -17,8 +14,8 @@ INT main(
     if(argc>5) {
         printf(
             "%s\n%s",
-            g_apszMessages[3],
-            g_apszErrorMessages[1]
+            Messages[3],
+            ErrorMessages[1]
         );
         return EXIT_FAILURE;
     }
@@ -29,110 +26,110 @@ INT main(
         argv[4],
         "TRUE"
     ) == 0)
-            stGdLevel.bIsNewgrounds = TRUE;
+            stGdLevel.IsNewgrounds = true;
 
     else if(strcmp(
         argv[4],
         "FALSE"
         ) == 0)
-            stGdLevel.bIsNewgrounds = FALSE;
+            stGdLevel.IsNewgrounds = false;
     else {
-        puts(g_apszErrorMessages[11]);
+        puts(ErrorMessages[11]);
         return EXIT_FAILURE;
     }
 
     strcpy(
-        stGdLevel.szLevelName, 
+        stGdLevel.LevelName, 
         argv[2]
     );
 
-    if(strlen(stGdLevel.szLevelName) > 20) {
-        puts(g_apszErrorMessages[7]);
+    if(strlen(stGdLevel.LevelName) > 20) {
+        puts(ErrorMessages[7]);
         return EXIT_FAILURE;
     }
-    stGdLevel.uSongID = 0;
-    stGdLevel.uSongID = atoi(argv[3]);
+    stGdLevel.SongID = 0;
+    stGdLevel.SongID = atoi(argv[3]);
 
-    FILE *pFile = fopen(
+    FILE *File = fopen(
         argv[1],
         "r\0"
     );
 
-    if(pFile != NULL) {
+    if(File != NULL) {
         //Get file size to allocate a buffer
         if(fseek(
-            pFile,
+             File,
              0,
              SEEK_END
              ) == 0) {
-             stGdLevel.uRawBufferSize = ftell(pFile);
-             rewind(pFile);
+             stGdLevel.RawBufferSize = ftell(File);
+             rewind(File);
 
              printf(
                 "\n%s\t%u\t%s", 
-                g_apszMessages[0], 
-                stGdLevel.uRawBufferSize, 
-                g_apszMessages[1]
+                Messages[0], 
+                stGdLevel.RawBufferSize, 
+                Messages[1]
                 );
 
-                stGdLevel.pszLevelBuffer = malloc(stGdLevel.uRawBufferSize);
+                stGdLevel.LevelBuffer = malloc(stGdLevel.RawBufferSize);
                 
-                if(stGdLevel.pszLevelBuffer == NULL) {
-                    puts(g_apszErrorMessages[4]);
+                if(stGdLevel.LevelBuffer == NULL) {
+                    puts(ErrorMessages[4]);
                     return EXIT_FAILURE;
                 }
 
                 if (fread(
-                    stGdLevel.pszLevelBuffer,
+                    stGdLevel.LevelBuffer,
                     1,
-                    stGdLevel.uRawBufferSize,
-                    pFile
+                    stGdLevel.RawBufferSize,
+                    File
                 ) < 0) {
-                    puts(g_apszErrorMessages[6]);
-                    fclose(pFile);
+                    puts(ErrorMessages[6]);
+                    fclose(File);
                     return EXIT_FAILURE;
                 }
 
-                UINT uStringStatus = fnGenerateString(&stGdLevel);
+                unsigned int StringStatus = GenerateString(&stGdLevel);
                 
-                fclose(pFile);
+                fclose(File);
 
-                free(stGdLevel.pszLevelBuffer);
+                free(stGdLevel.LevelBuffer);
 
-                if(uStringStatus) return EXIT_FAILURE;;
+                if(StringStatus) return EXIT_FAILURE;;
 
-                CHAR szFileNameWithEx[GDMAX + GMDEX];
+                char FileNameWithEx[GDMAX + GMDEX];
 
                 strcpy(
-                    szFileNameWithEx,
-                    stGdLevel.szLevelName
+                    FileNameWithEx,
+                    stGdLevel.LevelName
                 );
 
                 strcat(
-                    szFileNameWithEx,
+                    FileNameWithEx,
                     ".gmd\0"
                 );
 
-                pFile = fopen(
-                    szFileNameWithEx,
+                File = fopen(
+                    FileNameWithEx,
                     "w\0"
                 );
-                if(pFile != NULL) {
+                if(File != NULL) {
                     if(fprintf(
-                        pFile,
+                        File,
                         "%s",
-                         stGdLevel.pszGmdOut
+                         stGdLevel.GmdOut
                     ) < 0 ) {
-                        puts(g_apszErrorMessages[9]);
+                        puts(ErrorMessages[9]);
                         exit(EXIT_FAILURE);
                     } 
-                    free(stGdLevel.pszGmdOut);
-                    fclose(pFile);
-                    puts(g_apszMessages[2]);
+                    free(stGdLevel.GmdOut);
+                    fclose(File);
+                    puts(Messages[2]);
                 } 
 
                 else {
-                    puts(g_apszErrorMessages[3]);
+                    puts(ErrorMessages[3]);
                     return EXIT_FAILURE;
                 }
 
@@ -140,145 +137,145 @@ INT main(
             }
 
         else {
-             fclose(pFile);
-             puts(g_apszErrorMessages[3]);
+             fclose(File);
+             puts(ErrorMessages[3]);
              return EXIT_FAILURE;
         }
     }
 
     else {
-        puts(g_apszErrorMessages[2]);
+        puts(ErrorMessages[2]);
         return EXIT_FAILURE;
     }
 
     return EXIT_SUCCESS;
 }
 
-UINT fnGenerateString(_In_Out_ PGD_LEVEL_STRUCT pstLevel) {
-    if(pstLevel->bIsNewgrounds == FALSE) {
-                if(pstLevel->uSongID > 0) {
-                        if(pstLevel->uSongID > 22) {
-                            puts(g_apszErrorMessages[10]);
+unsigned int GenerateString(PGD_LEVEL_STRUCT pstLevel) {
+    if(pstLevel->IsNewgrounds == false) {
+                if(pstLevel->SongID > 0) {
+                        if(pstLevel->SongID > 22) {
+                            puts(ErrorMessages[10]);
                             return FAIL;
                         }
 
-                    pstLevel->uGmdOutSize = snprintf(
+                    pstLevel->GmdOutSize = snprintf(
                     NULL,
                     0,
                     "%s%s%s%s%s%u%s",
                     "<d><k>kCEK</k><i>4</i><k>k2</k><s>\0",
-                    pstLevel->szLevelName,
+                    pstLevel->LevelName,
                     "</s><k>k3</k><s></s><k>k4</k><s>\0",
-                    pstLevel->pszLevelBuffer,
+                    pstLevel->LevelBuffer,
                     "</s><k>k8</k><i>\0",
-                    pstLevel->uSongID,
+                    pstLevel->SongID,
                     "</i><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
-                pstLevel->pszGmdOut = malloc(pstLevel->uGmdOutSize);
+                pstLevel->GmdOut = malloc(pstLevel->GmdOutSize);
 
-                if(pstLevel->pszGmdOut == NULL) {
-                    puts(g_apszErrorMessages[5]);
+                if(pstLevel->GmdOut == NULL) {
+                    puts(ErrorMessages[5]);
                     return FAIL;
                 }
 
                 sprintf(
-                    pstLevel->pszGmdOut,
+                    pstLevel->GmdOut,
                     "%s%s%s%s%s%u%s",
                     "<d><k>kCEK</k><i>4</i><k>k2</k><s>\0",
-                    pstLevel->szLevelName,
+                    pstLevel->LevelName,
                     "</s><k>k3</k><s></s><k>k4</k><s>\0",
-                    pstLevel->pszLevelBuffer,
+                    pstLevel->LevelBuffer,
                     "</s><k>k8</k><i>\0",
-                    pstLevel->uSongID,
+                    pstLevel->SongID,
                     "</i><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
                 printf(
                     "\n%s\t%u\t%s", 
-                    g_apszMessages[4], 
-                    pstLevel->uGmdOutSize, 
-                    g_apszMessages[5]
+                    Messages[4], 
+                    pstLevel->GmdOutSize, 
+                    Messages[5]
                 );
         }
 
                 else {
-                    pstLevel->uGmdOutSize = snprintf(
+                    pstLevel->GmdOutSize = snprintf(
                     NULL,
                     0,
                     "%s%s%s%s%s",
                     "<d><k>kCEK</k><i>4</i><k>k2</k><s>\0",
-                    pstLevel->szLevelName,
+                    pstLevel->LevelName,
                     "</s><k>k3</k><s></s><k>k4</k><s>\0",
-                    pstLevel->pszLevelBuffer,
+                    pstLevel->LevelBuffer,
                     "</s><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
-                pstLevel->pszGmdOut = malloc(pstLevel->uGmdOutSize);
+                pstLevel->GmdOut = malloc(pstLevel->GmdOutSize);
 
-                if(pstLevel->pszGmdOut == NULL) {
-                    puts(g_apszErrorMessages[5]);
+                if(pstLevel->GmdOut == NULL) {
+                    puts(ErrorMessages[5]);
                     return FAIL;
                 }
 
                 sprintf(
-                    pstLevel->pszGmdOut,
+                    pstLevel->GmdOut,
                     "%s%s%s%s%s",
                     "<d><k>kCEK</k><i>4</i><k>k2</k><s>\0",
-                    pstLevel->szLevelName,
+                    pstLevel->LevelName,
                     "</s><k>k3</k><s></s><k>k4</k><s>\0",
-                    pstLevel->pszLevelBuffer,
+                    pstLevel->LevelBuffer,
                     "</s><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
                 printf(
                     "\n%s\t%u\t%s", 
-                    g_apszMessages[4], 
-                    pstLevel->uGmdOutSize, 
-                    g_apszMessages[5]
+                    Messages[4], 
+                    pstLevel->GmdOutSize, 
+                    Messages[5]
                 );
             }
     }
 
     else {
-                    pstLevel->uGmdOutSize = snprintf(
+                    pstLevel->GmdOutSize = snprintf(
                     NULL,
                     0,
                     "%s%s%s%s%s%u%s",
                     "<d><k>kCEK</k><i>4</i><k>k2</k><s>\0",
-                    pstLevel->szLevelName,
+                    pstLevel->LevelName,
                     "</s><k>k3</k><s></s><k>k4</k><s>\0",
-                    pstLevel->pszLevelBuffer,
+                    pstLevel->LevelBuffer,
                     "</s><k>k45</k><i>\0",
-                    pstLevel->uSongID,
+                    pstLevel->SongID,
                     "</i><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
-                pstLevel->pszGmdOut = malloc(pstLevel->uGmdOutSize);
+                pstLevel->GmdOut = malloc(pstLevel->GmdOutSize);
 
-                if(pstLevel->pszGmdOut == NULL) {
-                    puts(g_apszErrorMessages[5]);
+                if(pstLevel->GmdOut == NULL) {
+                    puts(ErrorMessages[5]);
                     return FAIL;
                 }
 
 
                 sprintf(
-                    pstLevel->pszGmdOut,
+                    pstLevel->GmdOut,
                     "%s%s%s%s%s%u%s",
                     "<d><k>kCEK</k><i>4</i><k>k2</k><s>\0",
-                    pstLevel->szLevelName,
+                    pstLevel->LevelName,
                     "</s><k>k3</k><s></s><k>k4</k><s>\0",
-                    pstLevel->pszLevelBuffer,
+                    pstLevel->LevelBuffer,
                     "</s><k>k45</k><i>\0",
-                    pstLevel->uSongID,
+                    pstLevel->SongID,
                     "</i><k>k13</k><t/><k>k21</k><i>2</i><k>k50</k><i>35</i></d>\0"
                     );
 
                 printf(
                     "\n%s\t%u\t%s", 
-                    g_apszMessages[4], 
-                    pstLevel->uGmdOutSize, 
-                    g_apszMessages[5]
+                    Messages[4], 
+                    pstLevel->GmdOutSize, 
+                    Messages[5]
                 );
     }
     
