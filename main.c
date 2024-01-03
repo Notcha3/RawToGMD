@@ -38,15 +38,18 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    strcpy(
-        GdLevel.LevelName, 
-        argv[2]
-    );
-
-    if(strlen(GdLevel.LevelName) > GDMAX) {
+    if(strlen(argv[2]) > GDMAX) {
         puts(ErrorMessages[7]);
         return EXIT_FAILURE;
     }
+
+    GdLevel.LevelName = malloc(strlen(argv[2]));
+
+    strcpy(
+            GdLevel.LevelName, 
+            argv[2]
+        );
+
     GdLevel.SongID = 0;
     GdLevel.SongID = atoi(argv[3]);
 
@@ -125,6 +128,7 @@ int main(int argc, char *argv[]) {
                     } 
                     free(GdLevel.GmdOut);
                     fclose(File);
+                    free(GdLevel.LevelName);
                     free(FileNameWithEx);
                     puts(Messages[2]);
                 } 

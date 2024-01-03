@@ -11,7 +11,7 @@
 //Structs
 typedef struct {
     unsigned int SongID;
-    char LevelName[GDMAX];
+    char *LevelName;
     char *LevelBuffer;
     char *GmdOut;
     unsigned int GmdOutSize;
