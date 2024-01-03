@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS;
 }
 
-unsigned int GenerateString(PGD_LEVEL_STRUCT Level) {
+unsigned int GenerateString(GD_LEVEL_STRUCT *Level) {
     if(Level->IsNewgrounds == false) {
                 if(Level->SongID > 0) {
                         if(Level->SongID > 22) {

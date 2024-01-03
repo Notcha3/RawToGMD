@@ -17,7 +17,7 @@ typedef struct {
     unsigned int GmdOutSize;
     unsigned int RawBufferSize;
     bool IsNewgrounds;
-} GD_LEVEL_STRUCT, *PGD_LEVEL_STRUCT;
+} GD_LEVEL_STRUCT;
 
 //Constants
 
@@ -55,4 +55,4 @@ const char *Messages[6] = {
 };
 
 //Functuion prototypes
-unsigned int GenerateString(PGD_LEVEL_STRUCT StructLevel);
+unsigned int GenerateString(GD_LEVEL_STRUCT *StructLevel);
