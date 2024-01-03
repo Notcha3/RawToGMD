@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
         argv[2]
     );
 
-    if(strlen(GdLevel.LevelName) > 20) {
+    if(strlen(GdLevel.LevelName) > GDMAX) {
         puts(ErrorMessages[7]);
         return EXIT_FAILURE;
     }
@@ -96,9 +96,9 @@ int main(int argc, char *argv[]) {
 
                 free(GdLevel.LevelBuffer);
 
-                if(StringStatus) return EXIT_FAILURE;;
+                if(StringStatus) return EXIT_FAILURE;
 
-                char FileNameWithEx[GDMAX + GMDEX];
+                char *FileNameWithEx = malloc(strlen(GdLevel.LevelName) + GMDEX);
 
                 strcpy(
                     FileNameWithEx,
@@ -125,6 +125,7 @@ int main(int argc, char *argv[]) {
                     } 
                     free(GdLevel.GmdOut);
                     fclose(File);
+                    free(FileNameWithEx);
                     puts(Messages[2]);
                 } 
 
